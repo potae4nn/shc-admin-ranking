@@ -1,0 +1,39 @@
+<div style="display: flex;justify-content: space-between;">
+    <h1>แก้ไขสมาชิก</h1>
+    <button mat-button mat-dialog-close color="warn">รีเซตรหัสผ่าน</button>
+</div>
+<form class="example-form" (ngSubmit)="onUpdateUser()" [formGroup]="userForm">
+    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>รหัสพนักงาน</mat-label>
+        <input matInput type="text" formControlName="employee_id" [ngModel]="details?.employee_id" readonly
+            [value]="details?.employee_id" name="employee_id" id="employee_id">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>ชื่อ</mat-label>
+        <input matInput type="text" [ngModel]="details?.name" formControlName="name" [value]="details?.name" name="name"
+            id="name">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>เบอร์โทร</mat-label>
+        <input matInput type="tel" [ngModel]="details?.contact_number" formControlName="contact_number"
+            [value]="details?.contact_number" name="contact_number" id="contact_number">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" [ngModel]="details?.email" formControlName="email" [value]="details?.email"
+            name="email" id="email">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>เปลี่ยนสถานะ</mat-label>
+        <mat-select [ngModel]="details?.status" formControlName="status" [value]="details?.status" name="status"
+            id="status">
+            <mat-option value="0">user</mat-option>
+            <mat-option value="1">admin</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-card-actions style="margin-left: 10px;">
+        <button mat-raised-button type="submit" [mat-dialog-close]="true" cdkFocusInitial
+            color="primary">ยืนยัน</button>
+        <button mat-button mat-dialog-close color="warn">ยกเลิก</button>
+    </mat-card-actions>
+</form>

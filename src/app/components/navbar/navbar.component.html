@@ -1,0 +1,98 @@
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
+    <mat-toolbar color="primary" class="example-toolbar">
+        <button mat-mini-fab>
+            <mat-icon style="cursor: pointer;" (click)="snav.toggle()">dehaze</mat-icon>
+        </button>
+        <!-- <button (click)="snav.toggle()"></button> -->
+        <h1 class="example-app-name">Admin SHC Ranking</h1>
+        <span class="example-spacer"></span>
+        <button (click)="logout()" mat-icon-button class="example-icon favorite-icon"
+            aria-label="Example icon-button with heart icon">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </mat-toolbar>
+    <mat-sidenav-container style="height: calc(100% - 64px); margin: 0;"
+        [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav #snav opened mode="side" [class.mat-elevation-z4]="true" style="width: 240px"
+            [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+            <mat-nav-list dense>
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                    <mat-expansion-panel-header>
+                        <mat-icon>table_chart</mat-icon> ตารางแสดงรายการ
+                    </mat-expansion-panel-header>
+                    <mat-list-item routerLink="dashboard">
+                        <mat-icon>dashboard</mat-icon> รายการรออนุมัติ
+                    </mat-list-item>
+                    <mat-list-item routerLink="statuslist">
+                        <mat-icon>table_chart</mat-icon> รายการทั้งหมด
+                    </mat-list-item>
+                </mat-expansion-panel>
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                    <mat-expansion-panel-header>
+                        <mat-icon>person</mat-icon> จัดการสมาชิก
+                    </mat-expansion-panel-header>
+                    <mat-nav-list dense>
+                        <a mat-list-item routerLink="member">
+                            <mat-icon>people</mat-icon> รายการสมาชิก
+                        </a>
+                        <a mat-list-item routerLink="staff">
+                            <mat-icon>person_add</mat-icon> รายการผู้ดูแลระบบ
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                    <mat-expansion-panel-header>
+                        <mat-icon>directions_run</mat-icon> จัดการกิจกรรม
+                    </mat-expansion-panel-header>
+                    <mat-nav-list dense>
+                        <a mat-list-item routerLink="activities">
+                            <mat-icon>notes</mat-icon> รายการกิจกรรม
+                        </a>
+                        <a mat-list-item routerLink="add_activities">
+                            <mat-icon>control_point</mat-icon> เพิ่มกิจกรรม
+                        </a>
+                    </mat-nav-list>
+                    <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                        <mat-expansion-panel-header>
+                            <mat-icon>people_outline</mat-icon> จัดการรุ่นอายุ
+                        </mat-expansion-panel-header>
+                        <mat-nav-list dense>
+                            <a mat-list-item routerLink="range_age">
+                                <mat-icon>assignment_ind</mat-icon> รายการรุ่นอายุ
+                            </a>
+                            <a mat-list-item routerLink="add_rangeage">
+                                <mat-icon>plus_one</mat-icon> เพิ่มรายการรุ่นอายุ
+                            </a>
+                        </mat-nav-list>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                        <mat-expansion-panel-header>
+                            <mat-icon>group</mat-icon> จัดการประเภทสมาชิก
+                        </mat-expansion-panel-header>
+                        <mat-nav-list dense>
+                            <a mat-list-item routerLink="typemember">
+                                <mat-icon>poll</mat-icon> ประเภทสมาชิก
+                            </a>
+                            <a mat-list-item routerLink="add_typemember">
+                                <mat-icon>person_add</mat-icon> เพิ่มประเภทสมาชิก
+                            </a>
+                        </mat-nav-list>
+                    </mat-expansion-panel>
+                </mat-expansion-panel>
+                <mat-expansion-panel [class.mat-elevation-z0]="true" dense>
+                    <mat-expansion-panel-header>
+                        <mat-icon>insert_chart_outlined</mat-icon>รายงาน
+                    </mat-expansion-panel-header>
+                    <mat-nav-list dense>
+                        <a mat-list-item routerLink="report">
+                            <mat-icon>bar_chart</mat-icon>รายงานสถิติผลรวม
+                        </a>
+                    </mat-nav-list>
+                </mat-expansion-panel>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>

@@ -1,0 +1,96 @@
+<mat-card style="margin: 10px;">
+    <mat-card-title>รายการกิจกรรม</mat-card-title>
+    <mat-card-subtitle>Activity</mat-card-subtitle>
+    <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+                    Ranking API rate limit has been reached. It will be reset in one minute.
+                </div>
+            </div>
+            <div class="example-table-container">
+                <div class="header-activity">
+                    <mat-form-field appearance="standard" class="full-width">
+                        <mat-label>ค้นหา</mat-label>
+                        <input matInput #inputSearch type="search" id="inputSearch" placeholder="ชื่อโครงการ">
+                    </mat-form-field>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <a mat-button href="/add_activities">
+                            <mat-icon>control_point</mat-icon> เพิ่มกิจกรรม
+                        </a>
+                    </mat-menu>
+                </div>
+
+                <table mat-table [dataSource]="dataActivity" class="example-table" matSort matSortActive="id_plan"
+                    matSortDisableClear matSortDirection="desc">
+                    <!-- name Column -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ชื่อโครงการ</th>
+                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="start_date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>เริ่มโครงการ</th>
+                        <td mat-cell *matCellDef="let row">{{row.start_date | setDate}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="end_date_register">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>สิ้นสุดการรับสมัคร</th>
+                        <td mat-cell *matCellDef="let row">{{row.end_date_register | setDate}}</td>
+                    </ng-container>
+
+                    <!-- member_type_name Column -->
+                    <ng-container matColumnDef="end_date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>สิ้นสุดโครงการ</th>
+                        <td mat-cell *matCellDef="let row">{{row.end_date | setDate}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="details">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>รายละเอียดโครงการ</th>
+                        <td mat-cell *matCellDef="let row"><div class="short-content">{{row.details}}</div></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>สถานะ</th>
+                        <td mat-cell *matCellDef="let row" [ngStyle]="{'color': colorStatus(row.status)}">{{row.status |
+                            statusActivity}}</td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>รูปภาพ</th>
+                        <td mat-cell *matCellDef="let row">
+                            <swiper *ngIf="row.images[0].image !== null" style="width: 200px;" [config]="config">
+                                <div class="swiper-wrapper">
+                                    <img class="swiper-slide" *ngFor="let img of row.images"
+                                        [src]="url+'/infomation/'+img.image" [alt]="img.image" />
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </swiper>
+                            <div *ngIf="row.images[0].image === null">ไม่มีรูปภาพ</div>
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">แก้ไข</th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button color="accent" (click)="openDialogEditActivity(row.id_plan)"
+                                aria-label="Action button">
+                                <mat-icon>open_in_new</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of GitHub search results">
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

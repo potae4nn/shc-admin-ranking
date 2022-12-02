@@ -1,0 +1,74 @@
+.card-table{
+    margin: 10px;
+  }
+  
+  /* Structure */
+  .example-container {
+      position: relative;
+  }
+    
+  table {
+    width: 100%;
+  }
+    
+  .example-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+    
+    /* .example-rate-limit-reached {
+      max-width: 360px;
+      text-align: center;
+    } */
+    
+    /* Column Widths */
+  .mat-column-number,
+  .mat-column-state {
+    max-width: 64px;
+  }
+  
+  .mat-column-created {
+    max-width: 124px;
+  }
+  
+  .full-width {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 14px;
+    width: 50%;
+  }
+  
+  .img-table{
+    width: 200px;
+  }
+  
+  .header-activity{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+  }
+
+  .swiper {
+    height: 400px;
+    width: 600px;
+  }
+  
+  .short-content{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height:56px;
+  }

@@ -1,0 +1,41 @@
+<mat-card style="margin: 10px;">
+    <mat-card-title>เพิ่มกิจกรรม</mat-card-title>
+    <mat-card-subtitle>Add activity</mat-card-subtitle>
+    <mat-card-content>
+        <form class="example-form" [formGroup]="formActivity" (ngSubmit)="onSaveActivity()">
+            <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+                <mat-label>ชื่อโครงการ</mat-label>
+                <input matInput type="text" formControlName="name" name="name" id="name">
+            </mat-form-field>
+            <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+                <mat-label>รายละเอียดโครงการ</mat-label>
+                <textarea matInput formControlName="details" name="details" id="details"></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>เริ่มต้น - สิ้นสุดโครงการ</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate formControlName="start_date" name="start_date" id="start_date"
+                        placeholder="เริ่มต้นโครงการ">
+                    <input matEndDate formControlName="end_date" name="end_date" id="end_date"
+                        placeholder="สิ้นสุดโครงการ">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>สิ้นสุดการสมัครโครงการ</mat-label>
+                <input matInput [matDatepicker]="dp" placeholder="สิ้นสุดการสมัครโครงการ"
+                    formControlName="end_date_register" name="end_date_register" id="end_date_register">
+                <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                <mat-datepicker #dp></mat-datepicker>
+            </mat-form-field>
+
+            <mat-card-actions style="margin-left: 10px;">
+                <button mat-raised-button type="submit" [disabled]="!formActivity.valid" cdkFocusInitial color="primary">บันทึก</button>
+                <button mat-button mat-dialog-close color="warn">ยกเลิก</button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
+</mat-card>

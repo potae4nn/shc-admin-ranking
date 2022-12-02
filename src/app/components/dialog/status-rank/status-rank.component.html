@@ -1,0 +1,61 @@
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
+    <h1>รายละเอียด</h1>
+    <div class="container">
+        <mat-card class="example-card">
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>{{details?.name}}</mat-card-title>
+                <mat-card-subtitle>{{details?.date | dates}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image [src]="url+'/image/'+details?.img" alt="{{details?.name}}">
+        </mat-card>
+
+        <mat-card class="example-card" style="height: 50%;">
+            <mat-card-content>
+                <form (ngSubmit)="onApprove()" class="example-form" [formGroup]="approveForm">
+                    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+                        <mat-label>ระยะทาง</mat-label>
+                        <input matInput type="number" [ngModel]="details?.distance" formControlName="distance"
+                            [value]="details?.distance" name="distance" id="distance">
+                        <span matSuffix>กม.</span>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+                        <mat-label>ระยะเวลา</mat-label>
+                        <input matInput type="text" [ngModel]="details?.time | setTime" formControlName="time"
+                            [value]="details?.time | setTime" name="time" id="time">
+                        <span matSuffix>ชม.</span>
+                    </mat-form-field>
+                    <mat-radio-group name="status" *ngIf="details?.status == '1'" [(ngModel)]="status"
+                        formControlName="status">
+                        <mat-radio-button style="margin-right: 6px;" [value]="2">ไม่อนุมัติ</mat-radio-button>
+                        <mat-radio-button [value]='0'>รออนุมัติ</mat-radio-button>
+                        <mat-radio-button [value]="1">อนุมัติ</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group name="status" *ngIf="details?.status == '2'" [(ngModel)]="status"
+                        formControlName="status">
+                        <mat-radio-button style="margin-right: 6px;" [value]="1">อนุมัติ</mat-radio-button>
+                        <mat-radio-button [value]='0'>รออนุมัติ</mat-radio-button>
+                        <mat-radio-button [value]="2">ไม่อนุมัติ</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-radio-group name="status" *ngIf="details?.status == '0'" [(ngModel)]="status"
+                        formControlName="status">
+                        <mat-radio-button style="margin-right: 6px;" [value]="1">อนุมัติ</mat-radio-button>
+                        <mat-radio-button [value]="2">ไม่อนุมัติ</mat-radio-button>
+                    </mat-radio-group>
+                    <br>
+                    <br>
+                    <mat-form-field *ngIf="status === 2" appearance="fill">
+                        <mat-label>หมายเหตุ</mat-label>
+                        <textarea matInput formControlName="remark"></textarea>
+                    </mat-form-field>
+                    <mat-card-actions style="margin-left: 10px;">
+                        <button mat-raised-button type="submit" [mat-dialog-close]="true" cdkFocusInitial
+                            color="primary">ยืนยัน</button>
+                        <button mat-button mat-dialog-close color="warn">ยกเลิก</button>
+                    </mat-card-actions>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</cdk-virtual-scroll-viewport>

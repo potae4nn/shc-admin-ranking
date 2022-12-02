@@ -1,0 +1,54 @@
+.example-card {
+    max-width: 400px;
+}
+  
+.example-viewport {
+    height: 600px;
+}
+
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.example-form {
+    /* min-width: 200px;
+    max-width: 800px; */
+    width: 100%;
+}
+
+mat-form-field {
+    margin-right: 12px;
+  }
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+  
+.upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+.example-section {
+    margin: 12px 0;
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 4px;
+}
+
+.example-margin {
+    margin: 0 12px;
+}

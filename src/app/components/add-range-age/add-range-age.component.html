@@ -1,0 +1,42 @@
+<mat-card style="margin: 10px;">
+    <mat-card-title>เพิ่มรายการรุ่นอายุ</mat-card-title>
+    <mat-card-subtitle>Add Range Age</mat-card-subtitle>
+    <mat-card-content>
+        <form class="example-form" [formGroup]="formAddRangeAge" (ngSubmit)="addRangeAge()">
+            <mat-form-field class="example-full-width" style="margin-left: 10px; margin-top:10px;" appearance="fill">
+                <mat-label>กลุ่มสมาชิก</mat-label>
+                <mat-select #myGroupMember formControlName="groupMember" [(value)]="groupMember"
+                    placeholder="กลุ่มสมาชิก">
+                    <mat-option *ngFor="let item of dataGroupMember; let i = index" [value]="item.id">
+                        {{item.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field  class="example-full-width" style="margin-left: 10px; margin-top:10px;" appearance="fill">
+                <mat-label>ประเภทช่วงเวลา</mat-label>
+                <mat-select #myTypeTime formControlName="typeTime" [(value)]="typeTime" placeholder="ประเภทช่วงเวลา">
+                    <mat-option *ngFor="let item of dataTypeTime" [value]="item.id">
+                        {{item.title}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field  class="example-full-width" style="margin-left: 10px; margin-top:10px;" appearance="fill" floatLabel="always">
+                <mat-label>เริ่ม</mat-label>
+                <input matInput type="number" formControlName="range_start" class="right-align" placeholder="0">
+            </mat-form-field>
+
+            <mat-form-field  class="example-full-width" style="margin-left: 10px; margin-top:10px;" appearance="fill" floatLabel="always">
+                <mat-label>สิ้นสุด</mat-label>
+                <input matInput type="number" formControlName="reane_end" class="right-align" placeholder="0">
+            </mat-form-field>
+
+            <mat-card-actions style="margin-left: 10px;">
+                <button mat-raised-button [disabled]="!formAddRangeAge.valid" type="submit" color="primary">ยืนยัน</button>
+                <button mat-button type="reset"  color="warn">ยกเลิก</button>
+            </mat-card-actions>
+
+        </form>
+    </mat-card-content>
+</mat-card>

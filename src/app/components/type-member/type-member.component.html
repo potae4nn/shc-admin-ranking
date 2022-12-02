@@ -1,0 +1,55 @@
+<mat-card style="margin: 10px;">
+    <mat-card-title>รายการประเภทสมาชิก</mat-card-title>
+    <mat-card-subtitle>Type member list</mat-card-subtitle>
+    <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+                    Ranking API rate limit has been reached. It will be reset in one minute.
+                </div>
+            </div>
+            <div class="example-table-container">
+                <div class="header-activity">
+                    <mat-form-field appearance="standard" class="full-width">
+                        <mat-label>ค้นหา</mat-label>
+                        <input matInput #inputSearch type="search" id="inputSearch" placeholder="ประเภทสมาชิก">
+                    </mat-form-field>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <a mat-button href="/add_typemember">
+                            <mat-icon>control_point</mat-icon> เพิ่มประเภทสมาชิก
+                        </a>
+                    </mat-menu>
+                </div>
+
+                <table mat-table [dataSource]="dataMemberGroup" class="example-table" matSort matSortActive="id"
+                    matSortDisableClear matSortDirection="asc">
+                    <!-- name Column -->
+                    <ng-container matColumnDef="title">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ประเภทสมาชิก</th>
+                        <td mat-cell *matCellDef="let row">{{row.title}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">แก้ไข</th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button color="accent" (click)="openDialogStatus(row.id_history)"
+                                aria-label="Action button">
+                                <mat-icon>open_in_new</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of GitHub search results">
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

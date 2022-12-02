@@ -1,0 +1,29 @@
+ .example-card {
+    max-width: 400px;
+  }
+  
+  .example-header-image {
+    background-image: url("https://t4.ftcdn.net/jpg/00/84/67/19/360_F_84671939_jxymoYZO8Oeacc3JRBDE8bSXBWj0ZfA9.jpg");
+    background-size: cover;
+  }
+
+  .example-viewport {
+    height: 600px;
+  }
+
+  .container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+  }
+
+  .example-full-width {
+    width: 100%;
+  }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }

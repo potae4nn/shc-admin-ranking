@@ -1,0 +1,71 @@
+<mat-card style="margin: 10px;">
+    <mat-card-title>รายการรุ่นอายุ</mat-card-title>
+    <mat-card-subtitle>Range age list</mat-card-subtitle>
+    <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+                    Ranking API rate limit has been reached. It will be reset in one minute.
+                </div>
+            </div>
+            <div class="example-table-container">
+                <div class="header-activity">
+                    <mat-form-field appearance="standard" class="full-width">
+                        <mat-label>ค้นหา</mat-label>
+                        <input matInput #inputSearch type="search" id="inputSearch" placeholder="กลุ่ม - ช่วง,ประเภทสมาชิก">
+                    </mat-form-field>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <a mat-button href="/add_rangeage">
+                            <mat-icon>plus_one</mat-icon> เพิ่มรายการรุ่นอายุ
+                        </a>
+                    </mat-menu>
+                </div>
+
+                <table mat-table [dataSource]="data" class="example-table" matSort matSortActive="rgm.id"
+                    matSortDisableClear matSortDirection="asc">
+                    <!-- name Column -->
+                   
+                    <ng-container matColumnDef="rangeage">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>กลุ่ม - ช่วง</th>
+                        <td mat-cell *matCellDef="let row">{{row.rangeage}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="range_start">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>เริ่ม</th>
+                        <td mat-cell *matCellDef="let row">{{row.range_start}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="range_end">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>สิ้นสุด</th>
+                        <td mat-cell *matCellDef="let row">{{row.range_end }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="typemember">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ประเภทสมาชิก</th>
+                        <td mat-cell *matCellDef="let row">{{row.typemember}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">แก้ไข</th>
+                        <td mat-cell *matCellDef="let row">
+                            <button mat-icon-button color="accent" (click)="openDialogStatus(row.id_history)"
+                                aria-label="Action button">
+                                <mat-icon>open_in_new</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+
+            <mat-paginator [length]="resultsLength" [pageSize]="10" aria-label="Select page of GitHub search results">
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

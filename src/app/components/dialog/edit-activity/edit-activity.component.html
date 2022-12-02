@@ -1,0 +1,173 @@
+<cdk-virtual-scroll-viewport appendOnly itemSize="50" class="example-viewport">
+    <div style="display: flex;justify-content: space-between;">
+        <h1>แก้ไขกิจกรรม</h1>
+    </div>
+    <form class="example-form" (ngSubmit)="onUpdateActivity()" [formGroup]="activityForm">
+        <mat-card style="margin: 10px;">
+            <mat-card-content>
+                <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+                    <mat-label>ชื่อโครงการ</mat-label>
+                    <input matInput type="text" [ngModel]="dataActivityByid?.name" formControlName="name"
+                        [value]="dataActivityByid?.name" name="name" id="name">
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+                    <mat-label>รายละเอียดโครงการ</mat-label>
+                    <textarea matInput matInput rows="5" cols="40" [ngModel]="dataActivityByid?.details"
+                        formControlName="details" [value]="dataActivityByid?.details" name="details"
+                        id="details"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>เริ่มต้น - สิ้นสุดโครงการ</mat-label>
+                    <mat-date-range-input [rangePicker]="picker">
+                        <input matStartDate [ngModel]="dataActivityByid?.start_date" formControlName="start_date"
+                            [value]="dataActivityByid?.start_date" name="start_date" id="start_date"
+                            placeholder="Start date">
+                        <input matEndDate [ngModel]="dataActivityByid?.end_date" formControlName="end_date"
+                            [value]="dataActivityByid?.end_date" name="end_date" id="end_date" placeholder="End date">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>สิ้นสุดการสมัครโครงการ</mat-label>
+                    <input matInput [matDatepicker]="dp" [ngModel]="dataActivityByid?.end_date_register"
+                        formControlName="end_date_register" [value]="dataActivityByid?.end_date_register"
+                        name="end_date_register" id="end_date_register">
+                    <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+                    <mat-datepicker #dp></mat-datepicker>
+                </mat-form-field>
+                <mat-label>สถานะกิจกรรม</mat-label>
+                <section class="example-section">
+                    <mat-slide-toggle formControlName="status" (ngModelChange)="changeTextStatus($event)"
+                        [ngModel]="dataActivityByid?.status" class="example-margin"
+                        [checked]="dataActivityByid?.status == 1 ? true : false">
+                        {{status}}
+                    </mat-slide-toggle>
+                </section>
+
+                <mat-card-actions style="margin-left: 10px;">
+                    <button mat-raised-button type="submit" cdkFocusInitial color="primary">บันทึก</button>
+                    <button mat-button mat-dialog-close color="warn">ยกเลิก</button>
+                </mat-card-actions>
+            </mat-card-content>
+        </mat-card>
+    </form>
+    <!-- <mat-form-field appearance="fill">
+            <mat-label>Favorite food</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{food.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+    <!-- <mat-label>สถานะกิจกรรม</mat-label>
+        <br>
+        <mat-slide-toggle style="margin-left: 10px;" formControlName="status" [value]="dataActivityByid?.status"
+            name="status" [ngModel]="dataActivityByid?.status">{{dataActivityByid?.status | statusActivity}}
+        </mat-slide-toggle>
+        {{dataActivityByid?.status}} -->
+    <mat-card style="margin: 10px;">
+        <mat-card-title>
+            <h3>เลือกกลุ่มเพื่อแสดงช่วงเวลาในรายงาน</h3>
+        </mat-card-title>
+
+        <form (submit)="onUpdateRangeAge()" [formGroup]="formRangeAge">
+            <div class="checkbox-group" style="margin-top:20px">
+                <div class="checkbox-wrap" formArrayName="rolesRange">
+                    <div *ngIf="formDataRange.controls === null">
+                        {{"ไม่มีข้อมูล"}}
+                    </div>
+                    <div *ngFor="let role of formDataRange.controls;  let i = index">
+                        <div class="line" [formGroupName]="i">
+                            <mat-checkbox [checked]="role.value.checked" formControlName="checked">
+                                {{role.value.report_type_time}} เริ่มต้น {{role.value.range_start}} สิ้นสุด
+                                {{role.value.range_end}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-card-actions style="margin-left: 10px;">
+                <button mat-raised-button type="submit" color="primary">บันทึก</button>
+                <button mat-button mat-dialog-close color="warn">ยกเลิก</button>
+            </mat-card-actions>
+        </form>
+
+        <!-- <pre> {{ formRangeAge.value | json }}</pre> -->
+    </mat-card>
+
+    <mat-card style="margin: 10px;">
+        <mat-card-title>
+            <h3>จัดการรูปภาพ</h3>
+        </mat-card-title>
+        <mat-card-content>
+            <div *ngIf="!showButtonUpload" class="upload-btn-wrapper">
+                <!-- <mat-label>เพิ่มรูปภาพ </mat-label> -->
+                <button mat-flat-button color="primary">
+                    <mat-icon>add_photo_alternate</mat-icon> เพิ่มรูปภาพ
+                </button>
+                <input type="file" #multipleInput accept="image/*" (change)="selectMultipleImage($event)"
+                    name="multipleInput" multiple />
+            </div>
+            <div style="display: flex;" *ngIf="showButtonUpload">
+                <button mat-flat-button color="accent" (click)="upload()">
+                    <mat-icon>cloud_upload</mat-icon> กรุณากดเพื่อเพิ่มรูปภาพ
+                </button>
+                <mat-toolbar style="width: 50%;height: auto;" class="progress-bar">
+                    <mat-progress-bar *ngIf="showProgress==true" color="accent" [value]="progress"></mat-progress-bar>
+                    <span class="progress">{{ progress }}%</span>
+                </mat-toolbar>
+                <button mat-button color="warn" (click)="resetImageUpload()">
+                    ยกเลิก
+                </button>
+            </div>
+
+            <div style="display: flex;flex-wrap: wrap;">
+                <div style="margin:6px;" *ngFor="let item of dataActivityByid?.images;">
+                    <img width="180px" height="180px" style="margin-top: 6px;margin-right: 6px;border-radius: 6px;"
+                        [src]="url+'/infomation/'+item.image" [alt]="item.image">
+                    <button style="position: absolute;margin: 140px 0px 0px -180px;" mat-mini-fab color="accent"
+                        (click)="openDialogImage(item.id)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+                <div *ngIf="fileImage" style="margin:6px;">
+                    <img *ngFor="let item of fileImage;" width="200px" height="200px"
+                        style="margin-top: 6px;margin-right: 6px;" [src]="item" [alt]="item">
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- </div>
+            <div class="swiper-pagination"></div>
+        </swiper> -->
+
+    <!-- </mat-form-field> -->
+    <!-- <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>เริ่มต้นโครงการ</mat-label>
+        <input matInput type="date" [ngModel]="dataActivityByid?.start_date" formControlName="start_date"
+            [value]="dataActivityByid?.start_date" name="start_date" id="start_date">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>สิ้นสุดการสมัครโครงการ</mat-label>
+        <input matInput type="date" [ngModel]="dataActivityByid?.end_date_register" formControlName="end_date_register"
+            [value]="dataActivityByid?.end_date_register" name="end_date_register" id="end_date_register">
+    </mat-form-field>
+    <mat-form-field class="example-full-width" style="margin-right: 6px;" appearance="fill">
+        <mat-label>สิ้นสุดการสมัครโครงการ</mat-label>
+        <input matInput type="date" [ngModel]="dataActivityByid?.end_date" formControlName="end_date"
+            [value]="dataActivityByid?.end_date" name="end_date" id="end_date">
+    </mat-form-field> -->
+    <!-- <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>เปลี่ยนสถานะ</mat-label>
+        <mat-select [ngModel]="dataActivityByid?.end_date" formControlName="status" [value]="dataActivityByid?.end_date" name="status"
+            id="status">
+            <mat-option value="2">Inactive</mat-option>
+            <mat-option value="1">Active</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+</cdk-virtual-scroll-viewport>

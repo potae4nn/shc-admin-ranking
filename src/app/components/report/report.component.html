@@ -1,0 +1,151 @@
+<mat-card style="margin: 10px;">
+    <mat-card-title>รายงานสถิติ</mat-card-title>
+    <mat-card-subtitle>Report</mat-card-subtitle>
+    <mat-card-content>
+        <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade" *ngIf="isLoadingResults || isRateLimitReached">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+                <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+                    Ranking API rate limit has been reached. It will be reset in one minute.
+                </div>
+            </div>
+            <div class="example-table-container">
+                <mat-form-field style="margin-left: 10px; margin-top:10px;" appearance="fill">
+                    <mat-label>เลือกปี พ.ศ.</mat-label>
+                    <mat-select #mySelectedYear [(value)]="selectedYear" placeholder="เลือกปี พ.ศ.">
+                        <mat-option *ngFor="let item of yearArray" [value]="item">{{item}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="margin-left: 10px; margin-top:10px;" appearance="fill">
+                    <mat-label>กิจกรรม</mat-label>
+                    <mat-select #myPlansList [(value)]="plansList" placeholder="กิจกรรม">
+                        <mat-option *ngFor="let item of plans; let i = index" [value]="item.id_plan">
+                            {{item.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field style="margin-left: 10px; margin-top:10px;" appearance="fill">
+                    <mat-label>เลือกประเภทช่วงอายุหรือช่วงเวลา</mat-label>
+                    <mat-select #myRangelists [(value)]="rangelists" placeholder="เลือกประเภทช่วงอายุหรือช่วงเวลา">
+                        <mat-option *ngFor="let item of range" [value]="item.id">
+                            {{item.rangeage}} ตั้งแต่ {{item.range_start}} สิ้นสุด {{item.range_end}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- <mat-form-field appearance="standard" class="full-width">
+                    <mat-label>ค้นหา</mat-label>
+                    <input matInput #inputSearch type="search" id="inputSearch" placeholder="ชื่อ-สกุล,รหัสสมาชิก">
+                </mat-form-field> -->
+                <div *ngIf="showtable == true">
+                    <h3 style="margin-left: 20px;">ชาย</h3>
+                    <table mat-table [dataSource]="dataMen" class="example-table" matSort
+                    matSortActive="history.timeupdate" matSortDisableClear matSortDirection="desc">
+                    <ng-container matColumnDef="index">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ลำดับ</th>
+                        <td mat-cell *matCellDef="let row; let i = index;">{{i+1}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ชื่อ-สกุล</th>
+                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="employee_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>รหัสสมาชิก</th>
+                        <td mat-cell *matCellDef="let row">{{row.employee_id}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sex">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>เพศ</th>
+                        <td mat-cell *matCellDef="let row">{{row.sex | sex}}</td>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="plan_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>กิจกรรม</th>
+                        <td mat-cell *matCellDef="let row">{{row.plan_name}}</td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="total_time">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ระยะเวลาราม</th>
+                        <td mat-cell *matCellDef="let row">{{row.total_time | setTime}} ชม.</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total_distance">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ระยะทางรวม</th>
+                        <td mat-cell *matCellDef="let row">{{row.total_distance.toFixed(2)}} กม.</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="shirt_size">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>เสื้อ</th>
+                        <td mat-cell *matCellDef="let row">{{row.shirt_size}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [length]="dataMen.length" [pageSize]="" aria-label="Select page of GitHub search results">
+                </mat-paginator>
+                </div>
+
+                <div  *ngIf="showtable == true">
+                    <h3 style="margin-left: 20px;">หญิง</h3>
+                    <table mat-table [dataSource]="dataWomen" class="example-table" matSort
+                    matSortActive="history.timeupdate" matSortDisableClear matSortDirection="desc">
+                    <ng-container matColumnDef="index">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ลำดับ</th>
+                        <td mat-cell *matCellDef="let row; let i = index;">{{i+1}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ชื่อ-สกุล</th>
+                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="employee_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>รหัสสมาชิก</th>
+                        <td mat-cell *matCellDef="let row">{{row.employee_id}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sex">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>เพศ</th>
+                        <td mat-cell *matCellDef="let row">{{row.sex | sex}}</td>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="plan_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>กิจกรรม</th>
+                        <td mat-cell *matCellDef="let row">{{row.plan_name}}</td>
+                    </ng-container>
+
+                    
+                    <ng-container matColumnDef="total_time">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ระยะเวลาราม</th>
+                        <td mat-cell *matCellDef="let row">{{row.total_time | setTime}} ชม.</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total_distance">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>ระยะทางรวม</th>
+                        <td mat-cell *matCellDef="let row">{{row.total_distance.toFixed(2)}} กม.</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="shirt_size">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>เสื้อ</th>
+                        <td mat-cell *matCellDef="let row">{{row.shirt_size}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator [length]="dataWomen.length" [pageSize]="" aria-label="Select page of GitHub search results">
+                </mat-paginator>
+                </div>
+               
+            </div>
+
+          
+        </div>
+    </mat-card-content>
+</mat-card>
